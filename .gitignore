@@ -1,0 +1,6 @@
+.DS_Store
+*.ignore*
+node_modules
+dist
+.env*
+libalibe.json
