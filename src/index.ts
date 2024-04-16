@@ -58,7 +58,7 @@ export const getPackageJsonPath = async ({ cwd }: { cwd: string }) => {
       })
     )[0]
     if (maybePackageJsonPath) {
-      return { packageJsonPath: maybePackageJsonPath }
+      return { packageJsonPath: maybePackageJsonPath, packageJsonDir: path.dirname(maybePackageJsonPath) }
     }
     const parentDirPath = path.resolve(dirPath, '..')
     if (dirPath === parentDirPath) {
@@ -69,12 +69,12 @@ export const getPackageJsonPath = async ({ cwd }: { cwd: string }) => {
   throw new Error('package.json not found')
 }
 
-export const getPackageJsonData = async ({ cwd }: { cwd: string }) => {
-  const { packageJsonPath } = await getPackageJsonPath({ cwd })
+export const getPackageJson = async ({ cwd }: { cwd: string }) => {
+  const { packageJsonPath, packageJsonDir } = await getPackageJsonPath({ cwd })
   const packageJsonData: PackageJson = await getDataFromFile({
     filePath: packageJsonPath,
   })
-  return { packageJsonData }
+  return { packageJsonData, packageJsonPath, packageJsonDir }
 }
 
 export const setPackageJsonData = async ({ cwd, packageJsonData }: { cwd: string; packageJsonData: PackageJson }) => {
@@ -112,11 +112,6 @@ export const setPackageJsonData = async ({ cwd, packageJsonData }: { cwd: string
     },
   })
   await fs.writeFile(packageJsonPath, stringifyedData)
-}
-
-export const getPackageJsonDir = async ({ cwd }: { cwd: string }) => {
-  const { packageJsonPath } = await getPackageJsonPath({ cwd })
-  return { packageJsonDir: path.dirname(packageJsonPath) }
 }
 
 const logColored = ({
