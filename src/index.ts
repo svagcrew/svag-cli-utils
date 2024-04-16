@@ -9,6 +9,16 @@ import { PackageJson } from 'type-fest'
 import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs/yargs'
 import z from 'zod'
+import stringify from 'json-stable-stringify'
+
+export const isFileExists = async ({ filePath }: { filePath: string }) => {
+  try {
+    await fs.access(filePath)
+    return { fileExists: true }
+  } catch {
+    return { fileExists: false }
+  }
+}
 
 export const getPathsByGlobs = async ({ globs, baseDir }: { globs: string[]; baseDir: string }) => {
   const filePaths = await fg(globs, {
@@ -69,7 +79,39 @@ export const getPackageJsonData = async ({ cwd }: { cwd: string }) => {
 
 export const setPackageJsonData = async ({ cwd, packageJsonData }: { cwd: string; packageJsonData: PackageJson }) => {
   const { packageJsonPath } = await getPackageJsonPath({ cwd })
-  await fs.writeFile(packageJsonPath, JSON.stringify(packageJsonData, null, 2))
+  const keysOrder = [
+    'name',
+    'version',
+    'homepage',
+    'repository',
+    'bugs',
+    'author',
+    'license',
+    'publishConfig',
+    'files',
+    'scripts',
+    'dependencies',
+    'devDependencies',
+    'libalibe',
+  ]
+  const stringifyedData = stringify(packageJsonData, {
+    space: 2,
+    cmp: (a, b) => {
+      const aIndex = keysOrder.indexOf(a.key)
+      const bIndex = keysOrder.indexOf(b.key)
+      if (aIndex === -1 && bIndex === -1) {
+        return a.key < b.key ? -1 : 1
+      }
+      if (aIndex === -1) {
+        return 1
+      }
+      if (bIndex === -1) {
+        return -1
+      }
+      return aIndex - bIndex
+    },
+  })
+  await fs.writeFile(packageJsonPath, stringifyedData)
 }
 
 export const getPackageJsonDir = async ({ cwd }: { cwd: string }) => {

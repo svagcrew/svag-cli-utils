@@ -33,6 +33,7 @@
     "enquirer": "^2.4.1",
     "fast-glob": "^3.3.2",
     "js-yaml": "^4.1.0",
+    "json-stable-stringify": "^1.1.1",
     "lodash": "^4.17.21",
     "omelette": "^0.4.17",
     "picocolors": "^1.0.0",
@@ -43,15 +44,16 @@
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
+    "@types/json-stable-stringify": "^1.0.36",
     "@types/lodash": "^4.17.0",
     "@types/readline-sync": "^1.4.8",
     "@types/semver": "^7.5.8",
     "@types/yargs": "^17.0.32",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-lint": "^0.0.21",
+    "svag-lint": "^0.0.24",
     "svag-prettier": "^0.0.4",
-    "svag-ts": "^0.0.15",
+    "svag-ts": "^0.0.16",
     "type-fest": "^4.15.0"
   }
 }
