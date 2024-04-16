@@ -1,5 +1,4 @@
 import child_process from 'child_process'
-import dedent from 'dedent'
 import fg from 'fast-glob'
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
@@ -9,8 +8,7 @@ import pc from 'picocolors'
 import { PackageJson } from 'type-fest'
 import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs/yargs'
-export { PackageJson } from 'type-fest'
-exports.dedent = dedent
+import z from 'zod'
 
 export const getPathsByGlobs = async ({ globs, baseDir }: { globs: string[]; baseDir: string }) => {
   const filePaths = await fg(globs, {
@@ -261,7 +259,16 @@ export const getCwdCommandArgsFlags = async () => {
   return { cwd, command, args, flags }
 }
 
-export const defineCliApp = ({ app }: { app: (props: Awaited<ReturnType<typeof getCwdCommandArgsFlags>>) => any }) => {
+export const validateOrThrow = <T extends z.ZodSchema>(props: { zod: T; text: string; data: any }) => {
+  try {
+    return props.zod.parse(props.data) as z.infer<T>
+  } catch (error) {
+    log.red(props.text)
+    throw error
+  }
+}
+
+export const defineCliApp = (app: (props: Awaited<ReturnType<typeof getCwdCommandArgsFlags>>) => any) => {
   void (async () => {
     try {
       const props = await getCwdCommandArgsFlags()
