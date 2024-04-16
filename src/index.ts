@@ -2,6 +2,7 @@ import child_process from 'child_process'
 import fg from 'fast-glob'
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
+import stringify from 'json-stable-stringify'
 import _ from 'lodash'
 import path from 'path'
 import pc from 'picocolors'
@@ -9,7 +10,6 @@ import { PackageJson } from 'type-fest'
 import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs/yargs'
 import z from 'zod'
-import stringify from 'json-stable-stringify'
 
 export const isFileExists = async ({ filePath }: { filePath: string }) => {
   try {
@@ -18,6 +18,33 @@ export const isFileExists = async ({ filePath }: { filePath: string }) => {
   } catch {
     return { fileExists: false }
   }
+}
+
+export const isDirExists = async ({ cwd }: { cwd: string }) => {
+  try {
+    await fs.access(cwd)
+    return { dirExists: true }
+  } catch (error) {
+    return { dirExists: false }
+  }
+}
+
+export const isDirEmpty = async ({ cwd }: { cwd: string }) => {
+  const files = await fs.readdir(cwd)
+  return { dirEmpty: !files.length }
+}
+
+export const getDirInfo = async ({ cwd }: { cwd: string }) => {
+  const { dirExists } = await isDirExists({ cwd })
+  if (!dirExists) {
+    return { dirExists: false, dirEmpty: true }
+  }
+  const { dirEmpty } = await isDirEmpty({ cwd })
+  return { dirExists: true, dirEmpty }
+}
+
+export const createDir = async ({ cwd }: { cwd: string }) => {
+  await fs.mkdir(cwd, { recursive: true })
 }
 
 export const getPathsByGlobs = async ({ globs, baseDir }: { globs: string[]; baseDir: string }) => {
@@ -181,37 +208,14 @@ const normalizeData = <T>(data: T): T => {
   // return dataString.replace(/\n{2,}/g, '\n')
 }
 
-export const exec = async ({
-  cwd,
-  command,
-  verbose = false,
-}: {
-  cwd: string
-  command: string
-  verbose?: boolean
-}): Promise<string> => {
+export const exec = async ({ cwd, command }: { cwd: string; command: string }): Promise<string> => {
   return await new Promise((resolve, reject) => {
-    if (verbose) {
-      log.blue(`$ cd ${cwd}`)
-      log.blue(`$ ${command}`)
-    }
     child_process.exec(command, { cwd }, (error, stdout, stderr) => {
       if (error) {
-        if (verbose) {
-          log.error(error)
-        }
         return reject(error)
       }
       if (stderr) {
-        if (verbose) {
-          process.stderr.write(stderr)
-          // log.gray(stderr)
-        }
         return reject(stderr)
-      }
-      if (verbose) {
-        process.stdout.write(stdout)
-        // log.gray(stdout)
       }
       return resolve(stdout)
     })
@@ -263,7 +267,6 @@ export const spawn = async ({
       stdout += normalizedData
       if (verbose) {
         process.stdout.write(normalizedData)
-        // log.gray(normalizedData)
       }
     })
     child.stderr.on('data', (data) => {
@@ -274,7 +277,6 @@ export const spawn = async ({
       stderr += normalizedData
       if (verbose) {
         process.stderr.write(normalizedData)
-        // log.gray(normalizedData)
       }
     })
     child.on('close', (code) => {
@@ -289,7 +291,7 @@ export const spawn = async ({
 
 export const getCwdCommandArgsFlags = async () => {
   const argv = await yargs(hideBin(process.argv)).argv
-  const command = argv._[0]?.toString() || 'help'
+  const command = argv._[0]?.toString() || 'h'
   const args = argv._.slice(1).map((arg) => arg.toString())
   const flags = _.omit(argv, ['_', '$0'])
   const cwd = process.cwd()
@@ -314,7 +316,7 @@ export const defineCliApp = (app: (props: Awaited<ReturnType<typeof getCwdComman
       log.error(error)
     } finally {
       if (log.isMemoryNotEmpty()) {
-        log.green('Result:')
+        log.black('\n=====Result=====')
         log.fromMemory()
       }
     }
