@@ -295,7 +295,10 @@ export const getCwdCommandArgsFlags = async () => {
   const args = argv._.slice(1).map((arg) => arg.toString())
   const flags = _.omit(argv, ['_', '$0'])
   const cwd = process.cwd()
-  return { cwd, command, args, flags }
+  const argsRawFull = process.argv
+  // get all elements from argsRawFull, after element with value is equal to command
+  const argr = argsRawFull.slice(argsRawFull.indexOf(command) + 1)
+  return { cwd, command, args, flags, argr }
 }
 
 export const validateOrThrow = <T extends z.ZodSchema>(props: { zod: T; text: string; data: any }) => {
