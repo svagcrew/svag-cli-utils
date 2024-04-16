@@ -26,7 +26,8 @@
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache .",
     "prettify": "prettier --log-level warn --cache --write '{src/**/*,*}.{ts,tsx,js,json,yml,scss}' '!**/{node_modules,dist}/**/*'",
     "types": "tsc --noEmit",
-    "build": "rimraf ./dist && tsc --build"
+    "build": "rimraf ./dist && tsc --build",
+    "watch": "tsc --watch --preserveWatchOutput --pretty"
   },
   "dependencies": {
     "dedent": "^1.5.3",
@@ -51,9 +52,9 @@
     "@types/yargs": "^17.0.32",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-lint": "^0.0.27",
-    "svag-prettier": "^0.0.5",
-    "svag-ts": "^0.0.16",
+    "svag-lint": "^0.0.28",
+    "svag-prettier": "^0.0.6",
+    "svag-ts": "^0.0.17",
     "type-fest": "^4.15.0"
   }
 }
