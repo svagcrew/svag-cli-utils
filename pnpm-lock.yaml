@@ -77,8 +77,8 @@ devDependencies:
     specifier: ^0.1.6
     version: 0.1.6
   svag-ts:
-    specifier: ^0.1.10
-    version: 0.1.10
+    specifier: ^0.1.11
+    version: 0.1.11
   type-fest:
     specifier: ^4.15.0
     version: 4.15.0
@@ -1397,8 +1397,8 @@ packages:
       prettier: 3.2.5
     dev: true
 
-  /svag-ts@0.1.10:
-    resolution: {integrity: sha512-PUQLypKpC0kBDtBdQ+A22rtfIJi6GEzMzORSnwRtcRaFUEM6QllfMDkaDTtJ3Hjz0oilo2W0bXT08q2LwDvKzA==}
+  /svag-ts@0.1.11:
+    resolution: {integrity: sha512-OJ04tyCNB2efF8bghKYqnzraTTzBOUz8MTLJyayCqEA1QD8vLapTd5zPgFV9VkdBKveYE1Z838YqyHNEFwu4Pg==}
     dependencies:
       typescript: 5.4.5
       typescript-transform-paths: 3.4.7(typescript@5.4.5)
