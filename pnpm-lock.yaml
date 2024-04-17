@@ -52,6 +52,9 @@ devDependencies:
   '@types/lodash':
     specifier: ^4.17.0
     version: 4.17.0
+  '@types/node':
+    specifier: ^20.12.7
+    version: 20.12.7
   '@types/readline-sync':
     specifier: ^1.4.8
     version: 1.4.8
@@ -68,11 +71,11 @@ devDependencies:
     specifier: ^5.0.5
     version: 5.0.5
   svag-lint:
-    specifier: ^0.1.2
-    version: 0.1.2(@types/node@20.12.7)(prettier@3.2.5)
+    specifier: ^0.1.5
+    version: 0.1.5(@types/node@20.12.7)(prettier@3.2.5)
   svag-prettier:
-    specifier: ^0.1.1
-    version: 0.1.1
+    specifier: ^0.1.2
+    version: 0.1.2
   svag-ts:
     specifier: ^0.1.2
     version: 0.1.2
@@ -1341,8 +1344,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /svag-cli-utils@0.0.13(@types/node@20.12.7):
-    resolution: {integrity: sha512-s9GWQRSgpHD/XjMmAUm9cIcg3b63lkzQv4E/MJltn4GEnd51f2o8rze3reJyF86FtwSHdbuUJe+DEJk8qbp/zw==}
+  /svag-cli-utils@0.1.2(@types/node@20.12.7):
+    resolution: {integrity: sha512-Om81Sn72BhdkZbtJpVt456YMvewMy8Q/F5qCCxB9lPgU7D9HJjU4kO2kNWzBFgHJF0Eh4m/uIfT6Rq1VsjQ4VA==}
     dependencies:
       dedent: 1.5.3
       enquirer: 2.4.1
@@ -1363,8 +1366,8 @@ packages:
       - babel-plugin-macros
     dev: true
 
-  /svag-lint@0.1.2(@types/node@20.12.7)(prettier@3.2.5):
-    resolution: {integrity: sha512-r1NbDTwiuQZrAWCRYbAmHHUIwVREc5ptxfZNBE/TW0ph0FiICcH45asgZzrC+ssknM3HIidGJxqFJR1vRIsG2w==}
+  /svag-lint@0.1.5(@types/node@20.12.7)(prettier@3.2.5):
+    resolution: {integrity: sha512-jjy1P5ewTV+4ZYjWZSm7903etSS7ewTzMPwmU/JtiqPVCiStknM+zRLKuehOdKIwPOqETDWfrXl8AHUaYNk+gA==}
     hasBin: true
     dependencies:
       '@eslint/js': 9.0.0
@@ -1374,7 +1377,7 @@ packages:
       eslint-plugin-node: 11.1.0(eslint@9.0.0)
       eslint-plugin-prettier: 5.1.3(eslint-config-prettier@9.1.0)(eslint@9.0.0)(prettier@3.2.5)
       lodash: 4.17.21
-      svag-cli-utils: 0.0.13(@types/node@20.12.7)
+      svag-cli-utils: 0.1.2(@types/node@20.12.7)
       typescript: 5.4.5
       typescript-eslint: 7.7.0(eslint@9.0.0)(typescript@5.4.5)
       zod: 3.22.4
@@ -1388,8 +1391,8 @@ packages:
       - supports-color
     dev: true
 
-  /svag-prettier@0.1.1:
-    resolution: {integrity: sha512-dgZ3oZhnD37Awv7geiGFqpI2jQXMT83U21wsBMYhmoV7xuYS5puLu37vnkYdn2JmZUBzXkyM07FhcG4bLJVjhQ==}
+  /svag-prettier@0.1.2:
+    resolution: {integrity: sha512-ljddjr2p7gJOp4qFeksiLgGWpowPs2qu90lO5oRSqJwV8hqW81fJe+PgNPtztyye7+xtNR68H6fNCu+oJ24Ovw==}
     dependencies:
       prettier: 3.2.5
     dev: true
