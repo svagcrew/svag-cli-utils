@@ -234,10 +234,10 @@ export const spawn = async ({
   env?: Record<string, string>
 }): Promise<string> => {
   return await new Promise((resolve, reject) => {
-    // this not work. becouse one of args can be "string inside string"
+    // this not work. becouse one of args can be "string inside string" or 'string inside string'
     // const [commandSelf, ...commandArgs] = command.split(' ')
     const { commandSelf, commandArgs } = (() => {
-      const commandParts = command.match(/(?:[^\s"]+|"[^"]*")+/g)
+      const commandParts = command.match(/(?:[^\s"']+|"[^"]*"|'[^']*')+/g)
       if (!commandParts) {
         throw new Error('Invalid command')
       }

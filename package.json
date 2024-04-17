@@ -23,8 +23,8 @@
   ],
   "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache .",
-    "prettify": "prettier --log-level warn --cache --write '{src/**/*,*}.{ts,tsx,js,json,yml,scss}' '!**/{node_modules,dist}/**/*'",
+    "lint": "svag-lint lint",
+    "prettify": "svag-prettier prettify",
     "types": "tsc --noEmit",
     "build": "rimraf ./dist && tsc --build",
     "watch": "tsc --watch --preserveWatchOutput --pretty"
@@ -53,9 +53,9 @@
     "@types/yargs": "^17.0.32",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-lint": "^0.1.11",
+    "svag-lint": "^0.1.12",
     "svag-prettier": "^0.1.6",
-    "svag-ts": "^0.1.9",
+    "svag-ts": "^0.1.10",
     "type-fest": "^4.15.0"
   }
 }
