@@ -53,9 +53,9 @@
     "@types/yargs": "^17.0.32",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-lint": "^0.1.8",
-    "svag-prettier": "^0.1.4",
-    "svag-ts": "^0.1.6",
+    "svag-lint": "^0.1.9",
+    "svag-prettier": "^0.1.5",
+    "svag-ts": "^0.1.7",
     "type-fest": "^4.15.0"
   },
   "libalibe": {
