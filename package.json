@@ -53,9 +53,9 @@
     "@types/yargs": "^17.0.32",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-lint": "^0.1.16",
-    "svag-prettier": "^0.1.8",
-    "svag-ts": "^0.1.12",
+    "svag-lint": "^0.1.17",
+    "svag-prettier": "^0.1.9",
+    "svag-ts": "^0.1.13",
     "type-fest": "^4.15.0"
   }
 }
