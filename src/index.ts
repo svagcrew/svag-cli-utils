@@ -1,8 +1,8 @@
 import child_process from 'child_process'
+import editJsonFile from 'edit-json-file'
 import fg from 'fast-glob'
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
-import stringify from 'json-stable-stringify'
 import _ from 'lodash'
 import path from 'path'
 import pc from 'picocolors'
@@ -104,41 +104,60 @@ export const getPackageJson = async ({ cwd }: { cwd: string }) => {
   return { packageJsonData, packageJsonPath, packageJsonDir }
 }
 
-export const setPackageJsonData = async ({ cwd, packageJsonData }: { cwd: string; packageJsonData: PackageJson }) => {
+// export const setPackageJsonData = async ({ cwd, packageJsonData }: { cwd: string; packageJsonData: PackageJson }) => {
+//   const { packageJsonPath } = await getPackageJsonPath({ cwd })
+//   const keysOrder = [
+//     'name',
+//     'version',
+//     'homepage',
+//     'repository',
+//     'bugs',
+//     'author',
+//     'license',
+//     'publishConfig',
+//     'bin',
+//     'files',
+//     'scripts',
+//     'dependencies',
+//     'devDependencies',
+//     'libalibe',
+//   ]
+//   const stringifyedData = stringify(packageJsonData, {
+//     space: 2,
+//     cmp: (a, b) => {
+//       const aIndex = keysOrder.indexOf(a.key)
+//       const bIndex = keysOrder.indexOf(b.key)
+//       if (aIndex === -1 && bIndex === -1) {
+//         return a.key < b.key ? -1 : 1
+//       }
+//       if (aIndex === -1) {
+//         return 1
+//       }
+//       if (bIndex === -1) {
+//         return -1
+//       }
+//       return aIndex - bIndex
+//     },
+//   })
+//   await fs.writeFile(packageJsonPath, stringifyedData)
+// }
+
+export const setJsonDataItem = async ({ filePath, key, value }: { filePath: string; key: string; value: any }) => {
+  const { fileExists } = await isFileExists({ filePath })
+  if (!fileExists) {
+    await fs.mkdir(path.dirname(filePath), { recursive: true })
+    await fs.writeFile(filePath, '{}\n')
+  }
+  const file = editJsonFile(filePath)
+  file.set(key, value)
+  file.save()
+}
+
+export const setPackageJsonDataItem = async ({ cwd, key, value }: { cwd: string; key: string; value: any }) => {
   const { packageJsonPath } = await getPackageJsonPath({ cwd })
-  const keysOrder = [
-    'name',
-    'version',
-    'homepage',
-    'repository',
-    'bugs',
-    'author',
-    'license',
-    'publishConfig',
-    'files',
-    'scripts',
-    'dependencies',
-    'devDependencies',
-    'libalibe',
-  ]
-  const stringifyedData = stringify(packageJsonData, {
-    space: 2,
-    cmp: (a, b) => {
-      const aIndex = keysOrder.indexOf(a.key)
-      const bIndex = keysOrder.indexOf(b.key)
-      if (aIndex === -1 && bIndex === -1) {
-        return a.key < b.key ? -1 : 1
-      }
-      if (aIndex === -1) {
-        return 1
-      }
-      if (bIndex === -1) {
-        return -1
-      }
-      return aIndex - bIndex
-    },
-  })
-  await fs.writeFile(packageJsonPath, stringifyedData)
+  const file = editJsonFile(packageJsonPath)
+  file.set(key, value)
+  file.save()
 }
 
 const logColored = ({

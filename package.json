@@ -32,10 +32,10 @@
   },
   "dependencies": {
     "dedent": "^1.5.3",
+    "edit-json-file": "^1.8.0",
     "enquirer": "^2.4.1",
     "fast-glob": "^3.3.2",
     "js-yaml": "^4.1.0",
-    "json-stable-stringify": "^1.1.1",
     "lodash": "^4.17.21",
     "omelette": "^0.4.17",
     "picocolors": "^1.0.0",
@@ -45,6 +45,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/edit-json-file": "^1.7.3",
     "@types/js-yaml": "^4.0.9",
     "@types/json-stable-stringify": "^1.0.36",
     "@types/lodash": "^4.17.0",
@@ -54,9 +55,9 @@
     "@types/yargs": "^17.0.32",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-lint": "^0.1.21",
-    "svag-prettier": "^0.1.12",
-    "svag-ts": "^0.1.16",
+    "svag-lint": "^0.1.22",
+    "svag-prettier": "^0.1.13",
+    "svag-ts": "^0.1.17",
     "ts-patch": "^3.1.2",
     "type-fest": "^4.15.0"
   }
