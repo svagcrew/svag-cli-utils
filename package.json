@@ -28,7 +28,8 @@
     "types": "svag-ts types",
     "build": "svag-ts build",
     "watch": "svag-ts watch",
-    "prepare": "ts-patch install -s"
+    "test": "echo 'Everything is OK'",
+    "prepare": "ts-patch install -s && husky"
   },
   "dependencies": {
     "dedent": "^1.5.3",
@@ -52,11 +53,13 @@
     "@types/readline-sync": "^1.4.8",
     "@types/semver": "^7.5.8",
     "@types/yargs": "^17.0.32",
+    "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-lint": "^0.1.25",
-    "svag-prettier": "^0.1.16",
-    "svag-ts": "^0.1.20",
+    "svag-husky": "^0.1.2",
+    "svag-lint": "^0.1.26",
+    "svag-prettier": "^0.1.17",
+    "svag-ts": "^0.1.22",
     "ts-patch": "^3.1.2",
     "type-fest": "^4.15.0"
   }

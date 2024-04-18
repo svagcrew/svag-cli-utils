@@ -340,6 +340,7 @@ export const defineCliApp = (app: (props: Awaited<ReturnType<typeof getCwdComman
       await app(props)
     } catch (error) {
       log.error(error)
+      process.exit(1)
     } finally {
       if (log.isMemoryNotEmpty()) {
         log.black('\n=====Result=====')
