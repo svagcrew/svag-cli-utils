@@ -3,6 +3,7 @@ import editJsonFile from 'edit-json-file'
 import fg from 'fast-glob'
 import { promises as fs } from 'fs'
 import yaml from 'js-yaml'
+import jsonStableStringify from 'json-stable-stringify'
 import _ from 'lodash'
 import path from 'path'
 import pc from 'picocolors'
@@ -17,6 +18,15 @@ export const isFileExists = async ({ filePath }: { filePath: string }) => {
     return { fileExists: true }
   } catch {
     return { fileExists: false }
+  }
+}
+
+export const isItDir = async ({ cwd }: { cwd: string }) => {
+  try {
+    const stat = await fs.stat(cwd)
+    return { itIsDir: stat.isDirectory() }
+  } catch {
+    return { itIsDir: false }
   }
 }
 
@@ -43,8 +53,47 @@ export const getDirInfo = async ({ cwd }: { cwd: string }) => {
   return { dirExists: true, dirEmpty }
 }
 
+export const getPathInfo = async ({ cwd }: { cwd: string }) => {
+  const result = {
+    itIsDir: false,
+    itIsFile: false,
+    pathExists: false,
+    fileExists: false,
+    dirExists: false,
+    dirEmpty: true,
+  }
+  try {
+    const stat = await fs.stat(cwd)
+    result.pathExists = true
+    if (stat.isDirectory()) {
+      result.itIsDir = true
+      result.dirExists = true
+      const { dirEmpty } = await isDirEmpty({ cwd })
+      result.dirEmpty = dirEmpty
+    } else {
+      result.itIsFile = true
+      result.fileExists = true
+    }
+    return result
+  } catch {
+    return {
+      itIsDir: false,
+      itIsFile: false,
+      pathExists: false,
+      fileExists: false,
+      dirExists: false,
+      dirEmpty: true,
+    }
+  }
+}
+
 export const createDir = async ({ cwd }: { cwd: string }) => {
   await fs.mkdir(cwd, { recursive: true })
+}
+
+export const createFile = async ({ cwd, content = '' }: { cwd: string; content?: string }) => {
+  await createDir({ cwd: path.dirname(cwd) })
+  await fs.writeFile(cwd, content)
 }
 
 export const getPathsByGlobs = async ({ globs, baseDir }: { globs: string[]; baseDir: string }) => {
@@ -104,43 +153,26 @@ export const getPackageJson = async ({ cwd }: { cwd: string }) => {
   return { packageJsonData, packageJsonPath, packageJsonDir }
 }
 
-// export const setPackageJsonData = async ({ cwd, packageJsonData }: { cwd: string; packageJsonData: PackageJson }) => {
-//   const { packageJsonPath } = await getPackageJsonPath({ cwd })
-//   const keysOrder = [
-//     'name',
-//     'version',
-//     'homepage',
-//     'repository',
-//     'bugs',
-//     'author',
-//     'license',
-//     'publishConfig',
-//     'bin',
-//     'files',
-//     'scripts',
-//     'dependencies',
-//     'devDependencies',
-//     'libalibe',
-//   ]
-//   const stringifyedData = stringify(packageJsonData, {
-//     space: 2,
-//     cmp: (a, b) => {
-//       const aIndex = keysOrder.indexOf(a.key)
-//       const bIndex = keysOrder.indexOf(b.key)
-//       if (aIndex === -1 && bIndex === -1) {
-//         return a.key < b.key ? -1 : 1
-//       }
-//       if (aIndex === -1) {
-//         return 1
-//       }
-//       if (bIndex === -1) {
-//         return -1
-//       }
-//       return aIndex - bIndex
-//     },
-//   })
-//   await fs.writeFile(packageJsonPath, stringifyedData)
-// }
+export const jsonStringify = ({ data, order }: { data: any; order: string[] }) => {
+  const stringifyedData = jsonStableStringify(data, {
+    space: 2,
+    cmp: (a, b) => {
+      const aIndex = order.indexOf(a.key)
+      const bIndex = order.indexOf(b.key)
+      if (aIndex === -1 && bIndex === -1) {
+        return a.key < b.key ? -1 : 1
+      }
+      if (aIndex === -1) {
+        return 1
+      }
+      if (bIndex === -1) {
+        return -1
+      }
+      return aIndex - bIndex
+    },
+  })
+  return stringifyedData
+}
 
 export const setJsonDataItem = async ({ filePath, key, value }: { filePath: string; key: string; value: any }) => {
   const { fileExists } = await isFileExists({ filePath })
@@ -310,6 +342,32 @@ export const spawn = async ({
       }
     })
   })
+}
+
+export const getFlagAsString = ({
+  flags,
+  keys,
+  coalesce = null,
+}: {
+  flags: Record<string, any>
+  keys: string[]
+  coalesce?: any
+}) => {
+  for (const key of keys) {
+    if (typeof flags[key] === 'string') {
+      return flags[key]
+    }
+  }
+  return coalesce
+}
+
+export const getFirstStringValue = (...values: any[]): string | null => {
+  for (const value of values) {
+    if (typeof value === 'string') {
+      return value
+    }
+  }
+  return null
 }
 
 export const getCwdCommandArgsFlags = async () => {
