@@ -56,10 +56,10 @@
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-husky": "^0.1.2",
-    "svag-lint": "^0.1.26",
-    "svag-prettier": "^0.1.17",
-    "svag-ts": "^0.1.22",
+    "svag-husky": "^0.1.3",
+    "svag-lint": "^0.1.27",
+    "svag-prettier": "^0.1.18",
+    "svag-ts": "^0.1.23",
     "ts-patch": "^3.1.2",
     "type-fest": "^4.15.0"
   }
