@@ -245,11 +245,13 @@ export const spawn = async ({
   cwd,
   command,
   verbose = true,
+  exitOnFailure = false,
   env = {},
 }: {
   cwd: string
   command: string
   verbose?: boolean
+  exitOnFailure?: boolean
   env?: Record<string, string>
 }): Promise<string> => {
   return await new Promise((resolve, reject) => {
@@ -300,7 +302,11 @@ export const spawn = async ({
       if (code === 0) {
         resolve(stdout)
       } else {
-        reject(stderr)
+        if (exitOnFailure) {
+          process.exit(code || 1)
+        } else {
+          reject(stderr)
+        }
       }
     })
   })

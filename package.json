@@ -39,7 +39,6 @@
     "lodash": "^4.17.21",
     "omelette": "^0.4.17",
     "picocolors": "^1.0.0",
-    "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "yargs": "^17.7.2",
     "zod": "^3.22.4"
@@ -55,9 +54,9 @@
     "@types/yargs": "^17.0.32",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-lint": "^0.1.23",
-    "svag-prettier": "^0.1.14",
-    "svag-ts": "^0.1.18",
+    "svag-lint": "^0.1.24",
+    "svag-prettier": "^0.1.15",
+    "svag-ts": "^0.1.19",
     "ts-patch": "^3.1.2",
     "type-fest": "^4.15.0"
   }
