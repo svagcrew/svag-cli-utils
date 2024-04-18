@@ -25,9 +25,10 @@
   "scripts": {
     "lint": "svag-lint lint",
     "prettify": "svag-prettier prettify",
-    "types": "tsc --noEmit",
-    "build": "rimraf ./dist && tsc --build",
-    "watch": "tsc --watch --preserveWatchOutput --pretty"
+    "types": "svag-ts types",
+    "build": "svag-ts build",
+    "watch": "svag-ts watch",
+    "prepare": "ts-patch install -s"
   },
   "dependencies": {
     "dedent": "^1.5.3",
@@ -53,9 +54,10 @@
     "@types/yargs": "^17.0.32",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-lint": "^0.1.17",
-    "svag-prettier": "^0.1.9",
-    "svag-ts": "^0.1.13",
+    "svag-lint": "^0.1.19",
+    "svag-prettier": "^0.1.10",
+    "svag-ts": "^0.1.14",
+    "ts-patch": "^3.1.2",
     "type-fest": "^4.15.0"
   }
 }

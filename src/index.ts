@@ -234,28 +234,26 @@ export const spawn = async ({
   env?: Record<string, string>
 }): Promise<string> => {
   return await new Promise((resolve, reject) => {
-    // this not work. becouse one of args can be "string inside string" or 'string inside string'
-    // const [commandSelf, ...commandArgs] = command.split(' ')
-    const { commandSelf, commandArgs } = (() => {
-      const commandParts = command.match(/(?:[^\s"']+|"[^"]*"|'[^']*')+/g)
-      if (!commandParts) {
-        throw new Error('Invalid command')
-      }
-      return {
-        commandSelf: commandParts[0],
-        commandArgs: commandParts.slice(1),
-      }
-    })()
+    // const { commandSelf, commandArgs } = (() => {
+    //   // const [commandSelf, ...commandArgs] = command.split(' ')
+    //   const commandParts = command.match(/(?:[^\s"']+|"[^"]*"|'[^']*')+/g)
+    //   if (!commandParts) {
+    //     throw new Error('Invalid command')
+    //   }
+    //   return {
+    //     commandSelf: commandParts[0],
+    //     commandArgs: commandParts.slice(1),
+    //   }
+    // })()
     if (verbose) {
       log.blue(`$ cd ${cwd}`)
       log.blue(`$ ${command}`)
     }
-    const child = child_process.spawn(commandSelf, commandArgs, {
+    // const child = child_process.spawn(commandSelf, commandArgs, {
+    const child = child_process.spawn(command, {
+      shell: true,
       cwd,
-      env: {
-        ...process.env,
-        ...env,
-      },
+      env: { ...process.env, ...env },
     })
     let stdout = ''
     let stderr = ''
