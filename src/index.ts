@@ -7,10 +7,13 @@ import jsonStableStringify from 'json-stable-stringify'
 import _ from 'lodash'
 import path from 'path'
 import pc from 'picocolors'
+import { register } from 'ts-node'
 import { PackageJson } from 'type-fest'
 import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs/yargs'
 import z from 'zod'
+
+register()
 
 export const isFileExists = async ({ filePath }: { filePath: string }) => {
   try {
@@ -107,7 +110,10 @@ export const getPathsByGlobs = async ({ globs, baseDir }: { globs: string[]; bas
 
 export const getDataFromFile = async ({ filePath }: { filePath: string }) => {
   const ext = path.basename(filePath).split('.').pop()
-  if (ext === 'js' || ext === 'ts') {
+  if (ext === 'js') {
+    return require(filePath)
+  }
+  if (ext === 'ts') {
     return require(filePath)
   }
   if (ext === 'yml' || ext === 'yaml') {

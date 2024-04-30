@@ -41,6 +41,7 @@
     "lodash": "^4.17.21",
     "omelette": "^0.4.17",
     "picocolors": "^1.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "yargs": "^17.7.2",
     "zod": "^3.22.4"
@@ -62,6 +63,7 @@
     "svag-prettier": "^0.1.20",
     "svag-ts": "^0.1.25",
     "ts-patch": "^3.1.2",
-    "type-fest": "^4.15.0"
+    "type-fest": "^4.15.0",
+    "typescript-transform-paths": "^3.4.7"
   }
 }
