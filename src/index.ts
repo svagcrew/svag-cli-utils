@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import child_process from 'child_process'
 import editJsonFile from 'edit-json-file'
 import fg from 'fast-glob'
@@ -111,10 +112,10 @@ export const getPathsByGlobs = async ({ globs, baseDir }: { globs: string[]; bas
 export const getDataFromFile = async ({ filePath }: { filePath: string }) => {
   const ext = path.basename(filePath).split('.').pop()
   if (ext === 'js') {
-    return require(filePath)
+    return require(filePath).default
   }
   if (ext === 'ts') {
-    return require(filePath)
+    return require(filePath).default
   }
   if (ext === 'yml' || ext === 'yaml') {
     return yaml.load(await fs.readFile(filePath, 'utf8'))
