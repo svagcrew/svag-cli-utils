@@ -14,7 +14,11 @@ import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs/yargs'
 import z from 'zod'
 
-register()
+register({
+  compilerOptions: {
+    module: 'NodeNext',
+  },
+})
 
 export const isFileExists = async ({ filePath }: { filePath: string }) => {
   try {
