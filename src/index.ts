@@ -2,7 +2,8 @@
 import child_process from 'child_process'
 import editJsonFile from 'edit-json-file'
 import fg from 'fast-glob'
-import { promises as fs } from 'fs'
+import fs from 'fs/promises'
+import fsync from 'fs'
 import yaml from 'js-yaml'
 import jsonStableStringify from 'json-stable-stringify'
 import _ from 'lodash'
@@ -27,6 +28,10 @@ export const isFileExists = async ({ filePath }: { filePath: string }) => {
   } catch {
     return { fileExists: false }
   }
+}
+
+export const isFileExistsSync = ({ filePath }: { filePath: string }) => {
+  return { fileExists: fsync.existsSync(filePath) }
 }
 
 export const isItDir = async ({ cwd }: { cwd: string }) => {
@@ -115,17 +120,36 @@ export const getPathsByGlobs = async ({ globs, baseDir }: { globs: string[]; bas
 
 export const getDataFromFile = async ({ filePath }: { filePath: string }) => {
   const ext = path.basename(filePath).split('.').pop()
-  if (ext === 'js') {
-    return require(filePath).default
-  }
-  if (ext === 'ts') {
-    return require(filePath).default
+  if (ext === 'js' || ext === 'ts' || ext === 'mjs') {
+    try {
+      return require(filePath).default
+    } catch (error) {
+      return await import(filePath).then((module) => module.default)
+    }
   }
   if (ext === 'yml' || ext === 'yaml') {
     return yaml.load(await fs.readFile(filePath, 'utf8'))
   }
   if (ext === 'json') {
     return JSON.parse(await fs.readFile(filePath, 'utf8'))
+  }
+  throw new Error(`Unsupported file extension: ${ext}`)
+}
+
+export const getDataFromFileSync = ({ filePath }: { filePath: string }) => {
+  const ext = path.basename(filePath).split('.').pop()
+  if (ext === 'js' || ext === 'ts' || ext === 'mjs') {
+    try {
+      return require(filePath).default
+    } catch (error) {
+      return require(filePath)
+    }
+  }
+  if (ext === 'yml' || ext === 'yaml') {
+    return yaml.load(fsync.readFileSync(filePath, 'utf8'))
+  }
+  if (ext === 'json') {
+    return JSON.parse(fsync.readFileSync(filePath, 'utf8'))
   }
   throw new Error(`Unsupported file extension: ${ext}`)
 }
@@ -203,6 +227,7 @@ export const setPackageJsonDataItem = async ({ cwd, key, value }: { cwd: string;
   file.save()
 }
 
+type LogMessage = string | any
 const logColored = ({
   message,
   color,
@@ -211,8 +236,16 @@ const logColored = ({
   color: 'red' | 'blue' | 'green' | 'gray' | 'black'
 }) => {
   const messages = Array.isArray(message) ? message : [message]
+  const stringifyedMessages = messages.map((message) => {
+    if (typeof message === 'string') {
+      return message
+    }
+    return jsonStableStringify(message, {
+      space: 2,
+    })
+  })
   // eslint-disable-next-line no-console
-  console.log(pc[color](messages.join('\n')))
+  console.log(pc[color](stringifyedMessages.join('\n')))
 }
 
 const logMemory: Record<string, string[]> = {
@@ -223,7 +256,7 @@ export const logToMemeoryColored = ({
   color,
   memoryKey = 'default',
 }: {
-  message: string | string[]
+  message: LogMessage | LogMessage[]
   color: 'red' | 'blue' | 'green' | 'gray' | 'black'
   memoryKey?: string
 }) => {
@@ -233,22 +266,22 @@ export const logToMemeoryColored = ({
 
 export const log = {
   it: logColored,
-  red: (...message: string[]) => logColored({ message, color: 'red' }),
-  blue: (...message: string[]) => logColored({ message, color: 'blue' }),
-  green: (...message: string[]) => logColored({ message, color: 'green' }),
-  gray: (...message: string[]) => logColored({ message, color: 'gray' }),
-  black: (...message: string[]) => logColored({ message, color: 'black' }),
+  red: (...message: LogMessage[]) => logColored({ message, color: 'red' }),
+  blue: (...message: LogMessage[]) => logColored({ message, color: 'blue' }),
+  green: (...message: LogMessage[]) => logColored({ message, color: 'green' }),
+  gray: (...message: LogMessage[]) => logColored({ message, color: 'gray' }),
+  black: (...message: LogMessage[]) => logColored({ message, color: 'black' }),
   // eslint-disable-next-line no-console
   error: console.error,
   // eslint-disable-next-line no-console
   info: console.info,
   toMemory: {
     it: logToMemeoryColored,
-    red: (...message: string[]) => logToMemeoryColored({ message, color: 'red' }),
-    blue: (...message: string[]) => logToMemeoryColored({ message, color: 'blue' }),
-    green: (...message: string[]) => logToMemeoryColored({ message, color: 'green' }),
-    gray: (...message: string[]) => logToMemeoryColored({ message, color: 'gray' }),
-    black: (...message: string[]) => logToMemeoryColored({ message, color: 'black' }),
+    red: (...message: LogMessage[]) => logToMemeoryColored({ message, color: 'red' }),
+    blue: (...message: LogMessage[]) => logToMemeoryColored({ message, color: 'blue' }),
+    green: (...message: LogMessage[]) => logToMemeoryColored({ message, color: 'green' }),
+    gray: (...message: LogMessage[]) => logToMemeoryColored({ message, color: 'gray' }),
+    black: (...message: LogMessage[]) => logToMemeoryColored({ message, color: 'black' }),
   },
   fromMemory: (memoryKey = 'default') => {
     for (const message of logMemory[memoryKey] || []) {
@@ -355,17 +388,34 @@ export const spawn = async ({
   })
 }
 
-export const getFlagAsString = ({
+export const getFlagAsString = <T extends string | null | undefined = null>({
   flags,
   keys,
-  coalesce = null,
+  coalesce = null as T,
 }: {
   flags: Record<string, any>
   keys: string[]
-  coalesce?: any
-}) => {
+  coalesce?: T
+}): T extends string ? string : T extends null ? null | string : undefined | string => {
   for (const key of keys) {
     if (typeof flags[key] === 'string') {
+      return flags[key] as any
+    }
+  }
+  return coalesce as any
+}
+
+export const getFlagAsBoolean = ({
+  flags,
+  keys,
+  coalesce,
+}: {
+  flags: Record<string, any>
+  keys: string[]
+  coalesce: boolean
+}): boolean => {
+  for (const key of keys) {
+    if (typeof flags[key] === 'boolean') {
       return flags[key]
     }
   }
