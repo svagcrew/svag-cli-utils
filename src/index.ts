@@ -233,7 +233,7 @@ const logColored = ({
   color,
 }: {
   message: string | string[]
-  color: 'red' | 'blue' | 'green' | 'gray' | 'black'
+  color?: 'red' | 'blue' | 'green' | 'gray' | 'black' | null
 }) => {
   const messages = Array.isArray(message) ? message : [message]
   const stringifyedMessages = messages.map((message) => {
@@ -244,6 +244,12 @@ const logColored = ({
       space: 2,
     })
   })
+
+  if (!color) {
+    // eslint-disable-next-line no-console
+    console.log(stringifyedMessages.join('\n'))
+    return
+  }
   // eslint-disable-next-line no-console
   console.log(pc[color](stringifyedMessages.join('\n')))
 }
@@ -257,15 +263,21 @@ export const logToMemeoryColored = ({
   memoryKey = 'default',
 }: {
   message: LogMessage | LogMessage[]
-  color: 'red' | 'blue' | 'green' | 'gray' | 'black'
+  color?: 'red' | 'blue' | 'green' | 'gray' | 'black' | null
   memoryKey?: string
 }) => {
-  const messages = (Array.isArray(message) ? message : [message]).map((message) => pc[color](message))
+  const messages = (Array.isArray(message) ? message : [message]).map((message) => {
+    if (color) {
+      return pc[color](message)
+    }
+    return message
+  })
   logMemory[memoryKey] = [...logMemory[memoryKey], ...messages]
 }
 
 export const log = {
   it: logColored,
+  normal: (...message: LogMessage[]) => logColored({ message }),
   red: (...message: LogMessage[]) => logColored({ message, color: 'red' }),
   blue: (...message: LogMessage[]) => logColored({ message, color: 'blue' }),
   green: (...message: LogMessage[]) => logColored({ message, color: 'green' }),
@@ -277,6 +289,7 @@ export const log = {
   info: console.info,
   toMemory: {
     it: logToMemeoryColored,
+    normal: (...message: LogMessage[]) => logToMemeoryColored({ message }),
     red: (...message: LogMessage[]) => logToMemeoryColored({ message, color: 'red' }),
     blue: (...message: LogMessage[]) => logToMemeoryColored({ message, color: 'blue' }),
     green: (...message: LogMessage[]) => logToMemeoryColored({ message, color: 'green' }),
