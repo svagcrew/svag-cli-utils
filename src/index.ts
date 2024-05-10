@@ -404,7 +404,7 @@ export const spawn = async ({
 export const getFlagAsString = <T extends string | null | undefined = null>({
   flags,
   keys,
-  coalesce = null as T,
+  coalesce = undefined,
 }: {
   flags: Record<string, any>
   keys: string[]
