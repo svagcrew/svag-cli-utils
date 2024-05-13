@@ -16,9 +16,9 @@ import yargs from 'yargs/yargs'
 import z from 'zod'
 
 register({
-  compilerOptions: {
-    module: 'NodeNext',
-  },
+  // compilerOptions: {
+  //   module: 'NodeNext',
+  // },
 })
 
 export const isFileExists = async ({ filePath }: { filePath: string }) => {
