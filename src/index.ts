@@ -2,8 +2,8 @@
 import child_process from 'child_process'
 import editJsonFile from 'edit-json-file'
 import fg from 'fast-glob'
-import fs from 'fs/promises'
 import fsync from 'fs'
+import fs from 'fs/promises'
 import yaml from 'js-yaml'
 import jsonStableStringify from 'json-stable-stringify'
 import _ from 'lodash'
@@ -178,6 +178,53 @@ export const getPackageJsonPath = async ({ cwd }: { cwd: string }) => {
     dirPath = parentDirPath
   }
   throw new Error('package.json not found')
+}
+
+export const getLowestPackageJsonPath = async ({ cwd }: { cwd: string }) => {
+  let dirPath = path.resolve('/', cwd)
+  const packageJsonPathsAndDirs: Array<{ packageJsonPath: string; packageJsonDir: string }> = []
+  for (let i = 0; i < 777; i++) {
+    const maybePackageJsonGlobs = [`${dirPath}/package.json`]
+    const maybePackageJsonPath = (
+      await fg(maybePackageJsonGlobs, {
+        onlyFiles: true,
+        absolute: true,
+      })
+    )[0]
+    if (maybePackageJsonPath) {
+      packageJsonPathsAndDirs.push({
+        packageJsonPath: maybePackageJsonPath,
+        packageJsonDir: path.dirname(maybePackageJsonPath),
+      })
+    }
+    const parentDirPath = path.resolve(dirPath, '..')
+    if (dirPath === parentDirPath) {
+      break
+    }
+    dirPath = parentDirPath
+  }
+  if (!packageJsonPathsAndDirs.length) {
+    throw new Error('package.json not found')
+  }
+  return packageJsonPathsAndDirs[packageJsonPathsAndDirs.length - 1]
+}
+
+export const getAllPackageJsonPaths = async ({ cwd }: { cwd: string }) => {
+  const { packageJsonDir: lowestPackageJsonDir, packageJsonPath: lowestPackageJsonPath } =
+    await getLowestPackageJsonPath({ cwd })
+  const otherPackageJsonsPaths = await fg(
+    [path.resolve(lowestPackageJsonDir, '**/package.json'), '!**/node_modules/**', '!**/dist/**'],
+    {
+      onlyFiles: true,
+      absolute: true,
+    }
+  )
+  const allPackageJsonsPaths = [...new Set([lowestPackageJsonPath, ...otherPackageJsonsPaths])]
+  const allPackageJsonsPathsAndDirs = allPackageJsonsPaths.map((packageJsonPath) => ({
+    packageJsonPath,
+    packageJsonDir: path.dirname(packageJsonPath),
+  }))
+  return { allPackageJsonsPathsAndDirs }
 }
 
 export const getPackageJson = async ({ cwd }: { cwd: string }) => {
