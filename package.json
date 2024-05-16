@@ -61,10 +61,10 @@
     "onchange": "^7.1.0",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "svag-husky": "^0.1.31",
-    "svag-lint": "^0.1.55",
-    "svag-prettier": "^0.1.45",
-    "svag-ts": "^0.1.51",
+    "svag-husky": "^0.1.32",
+    "svag-lint": "^0.1.56",
+    "svag-prettier": "^0.1.46",
+    "svag-ts": "^0.1.52",
     "tsc-alias": "^1.8.10",
     "type-fest": "^4.15.0"
   }
