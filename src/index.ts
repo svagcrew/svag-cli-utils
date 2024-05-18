@@ -1,3 +1,4 @@
+/* eslint-disable n/no-process-env */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import child_process from 'child_process'
 import editJsonFile from 'edit-json-file'
@@ -10,10 +11,10 @@ import _ from 'lodash'
 import path from 'path'
 import pc from 'picocolors'
 import { register } from 'ts-node'
-import { PackageJson } from 'type-fest'
+import type { PackageJson } from 'type-fest'
 import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs/yargs'
-import z from 'zod'
+import type z from 'zod'
 
 register({
   // compilerOptions: {
@@ -47,7 +48,7 @@ export const isDirExists = async ({ cwd }: { cwd: string }) => {
   try {
     await fs.access(cwd)
     return { dirExists: true }
-  } catch (error) {
+  } catch {
     return { dirExists: false }
   }
 }
@@ -122,8 +123,9 @@ export const getDataFromFile = async ({ filePath }: { filePath: string }) => {
   const ext = path.basename(filePath).split('.').pop()
   if (ext === 'js' || ext === 'ts' || ext === 'mjs') {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports, unicorn/prefer-module
       return require(filePath).default
-    } catch (error) {
+    } catch {
       return await import(filePath).then((module) => module.default)
     }
   }
@@ -140,8 +142,10 @@ export const getDataFromFileSync = ({ filePath }: { filePath: string }) => {
   const ext = path.basename(filePath).split('.').pop()
   if (ext === 'js' || ext === 'ts' || ext === 'mjs') {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports, unicorn/prefer-module
       return require(filePath).default
-    } catch (error) {
+    } catch {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports, unicorn/prefer-module
       return require(filePath)
     }
   }
@@ -155,7 +159,7 @@ export const getDataFromFileSync = ({ filePath }: { filePath: string }) => {
 }
 
 export const stringsToLikeArrayString = (paths: string[]) => {
-  return paths.map((path) => `"${path}"`).join(', ')
+  return paths.map((p) => `"${p}"`).join(', ')
 }
 
 export const getPackageJsonPath = async ({ cwd }: { cwd: string }) => {
@@ -283,11 +287,11 @@ const logColored = ({
   color?: 'red' | 'blue' | 'green' | 'gray' | 'black' | null
 }) => {
   const messages = Array.isArray(message) ? message : [message]
-  const stringifyedMessages = messages.map((message) => {
-    if (typeof message === 'string') {
-      return message
+  const stringifyedMessages = messages.map((m) => {
+    if (typeof m === 'string') {
+      return m
     }
-    return jsonStableStringify(message, {
+    return jsonStableStringify(m, {
       space: 2,
     })
   })
@@ -313,11 +317,11 @@ export const logToMemeoryColored = ({
   color?: 'red' | 'blue' | 'green' | 'gray' | 'black' | null
   memoryKey?: string
 }) => {
-  const messages = (Array.isArray(message) ? message : [message]).map((message) => {
+  const messages = (Array.isArray(message) ? message : [message]).map((m) => {
     if (color) {
-      return pc[color](message)
+      return pc[color](m)
     }
-    return message
+    return m
   })
   logMemory[memoryKey] = [...logMemory[memoryKey], ...messages]
 }
@@ -367,12 +371,14 @@ export const exec = async ({ cwd, command }: { cwd: string; command: string }): 
   return await new Promise((resolve, reject) => {
     child_process.exec(command, { cwd }, (error, stdout, stderr) => {
       if (error) {
-        return reject(error)
+        reject(error)
+        return
       }
       if (stderr) {
-        return reject(stderr)
+        reject(stderr)
+        return
       }
-      return resolve(stdout)
+      resolve(stdout)
     })
   })
 }
@@ -439,6 +445,7 @@ export const spawn = async ({
         resolve(stdout)
       } else {
         if (exitOnFailure) {
+          // eslint-disable-next-line n/no-process-exit
           process.exit(code || 1)
         } else {
           reject(stderr)
@@ -519,6 +526,7 @@ export const defineCliApp = (app: (props: Awaited<ReturnType<typeof getCwdComman
       await app(props)
     } catch (error) {
       log.error(error)
+      // eslint-disable-next-line n/no-process-exit
       process.exit(1)
     } finally {
       if (log.isMemoryNotEmpty()) {

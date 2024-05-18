@@ -62,9 +62,9 @@
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
     "svag-husky": "^0.1.35",
-    "svag-lint": "^0.1.58",
-    "svag-prettier": "^0.1.48",
-    "svag-ts": "^0.1.54",
+    "svag-lint": "^0.1.59",
+    "svag-prettier": "^0.1.49",
+    "svag-ts": "^0.1.55",
     "tsc-alias": "^1.8.10",
     "type-fest": "^4.15.0"
   }
