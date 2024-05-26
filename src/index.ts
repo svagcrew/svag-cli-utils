@@ -10,7 +10,8 @@ import jsonStableStringify from 'json-stable-stringify'
 import _ from 'lodash'
 import path from 'path'
 import pc from 'picocolors'
-import { register } from 'ts-node'
+// import { register } from 'ts-node'
+import { register } from 'tsx/esm/api'
 import type { PackageJson } from 'type-fest'
 import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs/yargs'
@@ -121,7 +122,7 @@ export const getPathsByGlobs = async ({ globs, baseDir }: { globs: string[]; bas
 
 export const getDataFromFile = async ({ filePath }: { filePath: string }) => {
   const ext = path.basename(filePath).split('.').pop()
-  if (ext === 'js' || ext === 'ts' || ext === 'mjs') {
+  if (ext === 'js' || ext === 'jsx' || ext === 'mjs' || ext === 'ts' || ext === 'tsx') {
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports, unicorn/prefer-module
       return require(filePath).default
