@@ -63,10 +63,10 @@
     "prettier": "^3.2.5",
     "react": "^18.3.1",
     "rimraf": "^5.0.5",
-    "svag-husky": "^0.1.44",
-    "svag-lint": "^0.1.68",
-    "svag-prettier": "^0.1.58",
-    "svag-ts": "^0.1.64",
+    "svag-husky": "^0.1.45",
+    "svag-lint": "^0.1.69",
+    "svag-prettier": "^0.1.59",
+    "svag-ts": "^0.1.65",
     "type-fest": "^4.15.0"
   }
 }
