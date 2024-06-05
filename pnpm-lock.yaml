@@ -92,20 +92,17 @@ devDependencies:
     specifier: ^5.0.5
     version: 5.0.5
   svag-husky:
-    specifier: ^0.1.42
-    version: 0.1.42(@types/node@20.12.7)
+    specifier: ^0.1.43
+    version: 0.1.43(@types/node@20.12.7)
   svag-lint:
-    specifier: ^0.1.66
-    version: 0.1.66(@babel/plugin-syntax-flow@7.24.1)(@babel/plugin-transform-react-jsx@7.23.4)(@types/node@20.12.7)(prettier@3.2.5)
+    specifier: ^0.1.67
+    version: 0.1.67(@babel/plugin-syntax-flow@7.24.1)(@babel/plugin-transform-react-jsx@7.23.4)(@types/node@20.12.7)(prettier@3.2.5)
   svag-prettier:
-    specifier: ^0.1.56
-    version: 0.1.56(@types/node@20.12.7)
+    specifier: ^0.1.57
+    version: 0.1.57(@types/node@20.12.7)
   svag-ts:
-    specifier: ^0.1.62
-    version: 0.1.62(@types/node@20.12.7)
-  tsc-alias:
-    specifier: ^1.8.10
-    version: 1.8.10
+    specifier: ^0.1.63
+    version: 0.1.63(@types/node@20.12.7)
   type-fest:
     specifier: ^4.15.0
     version: 4.15.0
@@ -1962,11 +1959,6 @@ packages:
 
   /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
-
-  /commander@9.5.0:
-    resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
-    engines: {node: ^12.20.0 || >=14}
-    dev: true
 
   /comment-parser@1.4.1:
     resolution: {integrity: sha512-buhp5kePrmda3vhc5B9t7pUQXAb2Tnd0qgpkIhPhkHXxJpiPJ11H0ZEU0oBpJ2QztSbzG/ZxMj/CHsYJqRHmyg==}
@@ -4129,11 +4121,6 @@ packages:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
     dev: true
 
-  /mylas@2.1.13:
-    resolution: {integrity: sha512-+MrqnJRtxdF+xngFfUUkIMQrUUL0KsxbADUkn23Z/4ibGg192Q+z+CQyiYwvWTsYjJygmMR8+w3ZDa98Zh6ESg==}
-    engines: {node: '>=12.0.0'}
-    dev: true
-
   /natural-compare-lite@1.4.0:
     resolution: {integrity: sha512-Tj+HTDSJJKaZnfiuw+iaF9skdPpTo2GtEly5JHnWV/hfv2Qj/9RKsGISQtLh2ox3l5EAGw487hnBee0sIJ6v2g==}
     dev: true
@@ -4369,13 +4356,6 @@ packages:
       find-up: 5.0.0
     dev: true
 
-  /plimit-lit@1.6.1:
-    resolution: {integrity: sha512-B7+VDyb8Tl6oMJT9oSO2CW8XC/T4UcJGrwOVoNGwOQsQYhlpfajmrMj5xeejqaASq3V/EqThyOeATEOMuSEXiA==}
-    engines: {node: '>=12'}
-    dependencies:
-      queue-lit: 1.5.2
-    dev: true
-
   /pluralize@8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
@@ -4435,11 +4415,6 @@ packages:
   /pvutils@1.1.3:
     resolution: {integrity: sha512-pMpnA0qRdFp32b1sJl1wOJNxZLQ2cbQx+k6tjNtZ8CpvVhNqEPRgivZ2WOUev2YMajecdH7ctUPDvEe87nariQ==}
     engines: {node: '>=6.0.0'}
-    dev: true
-
-  /queue-lit@1.5.2:
-    resolution: {integrity: sha512-tLc36IOPeMAubu8BkW8YDBV+WyIgKlYU7zUNs0J5Vk9skSZ4JfGlPOqplP0aHdfv7HL0B2Pg6nwiq60Qc6M2Hw==}
-    engines: {node: '>=12'}
     dev: true
 
   /queue-microtask@1.2.3:
@@ -4932,30 +4907,6 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /svag-cli-utils@0.1.59(@types/node@20.12.7):
-    resolution: {integrity: sha512-cBGR0we9/DAw+XNeDTp/eNXT5jr3gLT2SRubg/EjMmykxAJ77mopu1RfIuFy/LlNk15u3EZ/jZI2eeplc9ZApg==}
-    dependencies:
-      dedent: 1.5.3
-      edit-json-file: 1.8.0
-      enquirer: 2.4.1
-      fast-glob: 3.3.2
-      js-yaml: 4.1.0
-      json-stable-stringify: 1.1.1
-      lodash: 4.17.21
-      omelette: 0.4.17
-      picocolors: 1.0.1
-      ts-node: 10.9.2(@types/node@20.12.7)(typescript@5.4.5)
-      tsx: 4.11.0
-      typescript: 5.4.5
-      yargs: 17.7.2
-      zod: 3.22.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
-      - babel-plugin-macros
-    dev: true
-
   /svag-cli-utils@0.1.60(@types/node@20.12.7):
     resolution: {integrity: sha512-3sHB6kvHDrwPZNIFhQLaoQ4AhJNo0Mws60pEt1oAY1hf6MWyVQWfGvSTpu6HB/TSLyUUKEFw8HqsXqFIiz3m+Q==}
     dependencies:
@@ -4980,14 +4931,38 @@ packages:
       - babel-plugin-macros
     dev: true
 
-  /svag-husky@0.1.42(@types/node@20.12.7):
-    resolution: {integrity: sha512-zKsD5gFjiOc805QT/qpzCKvn2DkYVCUFqkV3/LZfnZCDk+lZX6DxvKpP7xBfZsuJWMMXzHhHx2GASXoqng+4DQ==}
+  /svag-cli-utils@0.1.61(@types/node@20.12.7):
+    resolution: {integrity: sha512-kK2EADwlF94Vih1hmyisFivTxmrknvKQbMKdb1ku4x3icFR6HBZS52f63+rmfdX7MP9L3sfL8zUOVkmKYyteVg==}
+    dependencies:
+      dedent: 1.5.3
+      edit-json-file: 1.8.0
+      enquirer: 2.4.1
+      fast-glob: 3.3.2
+      js-yaml: 4.1.0
+      json-stable-stringify: 1.1.1
+      lodash: 4.17.21
+      omelette: 0.4.17
+      picocolors: 1.0.1
+      ts-node: 10.9.2(@types/node@20.12.7)(typescript@5.4.5)
+      tsx: 4.11.0
+      typescript: 5.4.5
+      yargs: 17.7.2
+      zod: 3.22.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - babel-plugin-macros
+    dev: true
+
+  /svag-husky@0.1.43(@types/node@20.12.7):
+    resolution: {integrity: sha512-Sh+MTEi1G09yXWrXAh+Of8zWd+3Z/jtUDtq40pidkVb2HFIqAiVv02aOslTsKiOafOL9r9hNOMFsU09Aaj5+7g==}
     hasBin: true
     dependencies:
       dedent: 1.5.3
       lodash: 4.17.21
       prettier: 3.2.5
-      svag-cli-utils: 0.1.59(@types/node@20.12.7)
+      svag-cli-utils: 0.1.60(@types/node@20.12.7)
       typescript: 5.4.5
       zod: 3.22.4
     transitivePeerDependencies:
@@ -4997,8 +4972,8 @@ packages:
       - babel-plugin-macros
     dev: true
 
-  /svag-lint@0.1.66(@babel/plugin-syntax-flow@7.24.1)(@babel/plugin-transform-react-jsx@7.23.4)(@types/node@20.12.7)(prettier@3.2.5):
-    resolution: {integrity: sha512-JIyK7l/IoX6+bt6n9/C9eMMTgo64qCJDhSCgAaeWDJY3TVBtd+UNqnUCHhjLnHp2RZdMs42oGAIj85DWPvqwKw==}
+  /svag-lint@0.1.67(@babel/plugin-syntax-flow@7.24.1)(@babel/plugin-transform-react-jsx@7.23.4)(@types/node@20.12.7)(prettier@3.2.5):
+    resolution: {integrity: sha512-ukijOLW7mtOZsaqP10sYexHvlmhkMz2ePYUmME2HIGMQpJ2CN2nXp00+Fa+Vnq+GyVYKxhuiRoiWoGa5iIY7TA==}
     hasBin: true
     dependencies:
       '@eslint/js': 9.0.0
@@ -5010,7 +4985,7 @@ packages:
       eslint-plugin-prettier: 5.1.3(eslint-config-prettier@9.1.0)(eslint@9.0.0)(prettier@3.2.5)
       globals: 15.2.0
       lodash: 4.17.21
-      svag-cli-utils: 0.1.60(@types/node@20.12.7)
+      svag-cli-utils: 0.1.61(@types/node@20.12.7)
       typescript: 5.4.5
       typescript-eslint: 7.7.0(eslint@9.0.0)(typescript@5.4.5)
       zod: 3.22.4
@@ -5034,14 +5009,14 @@ packages:
       - vitest
     dev: true
 
-  /svag-prettier@0.1.56(@types/node@20.12.7):
-    resolution: {integrity: sha512-21rQBBBp8UNjM5p57SFTJKcKXtWr+dfs9kqi4K7JdBYn0/H5CLuVcb5rYm9fgSyKubmwAzvLlE3J3WcYFCYpMA==}
+  /svag-prettier@0.1.57(@types/node@20.12.7):
+    resolution: {integrity: sha512-oEeUKqtIsRLG1akpqzRYCVdVHAI8c17dAoxoyH88HNXzPLga34jeg6hSG5nyxMt3YKnOzMDeafwSNqVL+nkdsw==}
     hasBin: true
     dependencies:
       dedent: 1.5.3
       lodash: 4.17.21
       prettier: 3.2.5
-      svag-cli-utils: 0.1.59(@types/node@20.12.7)
+      svag-cli-utils: 0.1.60(@types/node@20.12.7)
       typescript: 5.4.5
       zod: 3.22.4
     transitivePeerDependencies:
@@ -5051,16 +5026,15 @@ packages:
       - babel-plugin-macros
     dev: true
 
-  /svag-ts@0.1.62(@types/node@20.12.7):
-    resolution: {integrity: sha512-CJQpfMhwFe89u/obyUMkyeXIF+9tMLYG16ZI7YIlZmZR0pt16WL9v+34iNX6PaEJZ2Dxu8d4Pxe/kl+bqENxlA==}
+  /svag-ts@0.1.63(@types/node@20.12.7):
+    resolution: {integrity: sha512-oFXvpRrkOoUf1Z5nscCJ/r+VuYUPJr/YBbjuHOyZJY6xUvdgIBBF7TL2dek6UydoueLI3AXQMYkfFseZZZSPRw==}
     hasBin: true
     dependencies:
       dedent: 1.5.3
       lodash: 4.17.21
       prettier: 3.2.5
       rimraf: 5.0.5
-      svag-cli-utils: 0.1.60(@types/node@20.12.7)
-      tsc-alias: 1.8.10
+      svag-cli-utils: 0.1.61(@types/node@20.12.7)
       typescript: 5.4.5
       zod: 3.22.4
     transitivePeerDependencies:
@@ -5166,18 +5140,6 @@ packages:
       chalk: 4.1.2
       tsconfig-paths: 3.15.0
       typescript: 5.4.5
-    dev: true
-
-  /tsc-alias@1.8.10:
-    resolution: {integrity: sha512-Ibv4KAWfFkFdKJxnWfVtdOmB0Zi1RJVxcbPGiCDsFpCQSsmpWyuzHG3rQyI5YkobWwxFPEyQfu1hdo4qLG2zPw==}
-    hasBin: true
-    dependencies:
-      chokidar: 3.6.0
-      commander: 9.5.0
-      globby: 11.1.0
-      mylas: 2.1.13
-      normalize-path: 3.0.0
-      plimit-lit: 1.6.1
     dev: true
 
   /tsconfig-paths@3.15.0:
