@@ -232,8 +232,25 @@ export const getAllPackageJsonPaths = async ({ cwd }: { cwd: string }) => {
   return { allPackageJsonsPathsAndDirs }
 }
 
-export const getPackageJson = async ({ cwd }: { cwd: string }) => {
-  const { packageJsonPath, packageJsonDir } = await getPackageJsonPath({ cwd })
+export const getPackageJson = async ({
+  cwd,
+  packageJsonPath: packageJsonPathInput,
+}: {
+  cwd?: string
+  packageJsonPath?: string
+}) => {
+  const { packageJsonPath, packageJsonDir } = await (async (): Promise<{
+    packageJsonPath: string
+    packageJsonDir: string
+  }> => {
+    if (cwd) {
+      return await getPackageJsonPath({ cwd })
+    } else if (packageJsonPathInput) {
+      return { packageJsonPath: packageJsonPathInput, packageJsonDir: path.dirname(packageJsonPathInput) }
+    } else {
+      throw new Error('cwd or packageJsonPath is required')
+    }
+  })()
   const packageJsonData: PackageJson = await getDataFromFile({
     filePath: packageJsonPath,
   })
