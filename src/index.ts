@@ -485,6 +485,10 @@ export const getFlagAsString = <T extends string | null | undefined = null>({
   for (const key of keys) {
     if (typeof flags[key] === 'string') {
       return flags[key] as any
+    } else if (typeof flags[key] === 'number') {
+      return flags[key].toString() as any
+    } else if (typeof flags[key] === 'boolean') {
+      return flags[key].toString() as any
     }
   }
   return coalesce as any
