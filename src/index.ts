@@ -490,6 +490,26 @@ export const getFlagAsString = <T extends string | null | undefined = null>({
   return coalesce as any
 }
 
+export const getFlagAsStringArray = <T extends string[] = []>({
+  flags,
+  keys,
+  coalesce,
+}: {
+  flags: Record<string, any>
+  keys: string[]
+  coalesce?: T
+}): string[] => {
+  const result: string[] = []
+  for (const key of keys) {
+    if (Array.isArray(flags[key])) {
+      result.push(...flags[key].map((v: any) => v.toString()))
+    } else if (typeof flags[key] === 'string') {
+      result.push(flags[key].toString())
+    }
+  }
+  return result.length ? result : coalesce || []
+}
+
 export const getFlagAsBoolean = ({
   flags,
   keys,
